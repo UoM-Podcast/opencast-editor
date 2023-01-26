@@ -4,9 +4,9 @@
 import { settings } from '../config';
 
 /**
- * Client I stole this form a react tutorial
+ * Client I stole this from a react tutorial
  */
-export async function client(endpoint, { body, ...customConfig } = {}) {
+export async function client(endpoint, method, { body, ...customConfig } = {}) {
   const headers = { 'Content-Type': 'application/json' }
 
   // Attempt Http basic auth if we got credentials
@@ -19,7 +19,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
   }
 
   const config = {
-    method: body ? 'POST' : 'GET',
+    method: method,
     ...customConfig,
     headers: {
       ...headers,
@@ -57,9 +57,13 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
 }
 
 client.get = function (endpoint, customConfig = {}) {
-  return client(endpoint, { ...customConfig, method: 'GET' })
+  return client(endpoint, 'GET', { ...customConfig})
 }
 
 client.post = function (endpoint, body, customConfig = {}) {
-  return client(endpoint, { ...customConfig, body })
+  return client(endpoint, 'POST', {body, ...customConfig})
+}
+
+client.delete = function (endpoint, customConfig = {}) {
+  return client(endpoint, 'DELETE', { ...customConfig })
 }
