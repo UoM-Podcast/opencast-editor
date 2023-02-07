@@ -147,6 +147,7 @@
         "location": "Location",
         "source": "Source",
         "created": "Created",
+        "mediator": "Notification email",
         "publisher": "Publisher",
         "identifier": "UID"
       },
