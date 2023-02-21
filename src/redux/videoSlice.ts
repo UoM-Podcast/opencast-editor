@@ -30,7 +30,8 @@ export interface video {
   workflows: Workflow[],
 
   lockingActive: boolean,     // Whether locking event editing is enabled
-  lockRefresh: number | null,  // Lock refresh period
+  lockRefresh: number | null, // Lock refresh period
+  lockState: boolean,         // Whether lock has been obtained
   lock: lockData
 }
 
@@ -64,6 +65,7 @@ export const initialState: video & httpRequestState = {
 
   lockingActive: false,
   lockRefresh: null,
+  lockState: false,
   lock: {uuid: '', user: ''},
 
   status: 'idle',
@@ -156,8 +158,9 @@ const videoSlice = createSlice({
       state.tracks[index].thumbnailUri = undefined
     },
     // TODO: what's this do?
-    setLock: (state, action: PayloadAction<video["lock"]>) => {
-      state.lock = action.payload
+    setLock: (state, action: PayloadAction<video["lockState"]>) => {
+      console.log(action + ' ' + action.payload);
+      state.lockState = action.payload;
     },
     cut: (state) => {
       // If we're exactly between two segments, we can't split the current segment
@@ -230,6 +233,7 @@ const videoSlice = createSlice({
 
         state.aspectRatios = new Array(state.videoCount)
         state.lockingActive = action.payload.locking_active
+        state.lockRefresh = action.payload.lock_refresh
         state.lock.uuid = action.payload.lock_uuid;
         state.lock.user = action.payload.lock_user;
     })

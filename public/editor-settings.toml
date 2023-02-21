@@ -9,11 +9,11 @@
 
 
 # Pick a default event identifier which should be on develop.opencast.org
-id = 'ID-dual-stream-demo'
+#id = 'ID-dual-stream-demo'
 
 [opencast]
 # Connect to develop.opencast.org and use the default demo user
-url = 'https://develop.opencast.org'
+url = 'http://local.opencast.manchester.ac.uk/'
 name = "admin"
 password = "opencast"
 
