@@ -48,7 +48,8 @@ const MainContent: React.FC<{}> = () => {
     if (videoChanged || metadataChanged) {
       event.preventDefault();
     }
-    Lock.releaseLock();
+
+    // TODO: Release lock here or with it's on unBeforeUnload listener?
   });
 
   const mainContentStyle = css({
