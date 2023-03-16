@@ -30,14 +30,12 @@ import {
 import { selectTheme } from "../redux/themeSlice";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Thumbnail from "./Thumbnail";
-import Lock from "./Lock";
 
 /**
  * A container for the main functionality
  * Shows different components depending on the state off the app
  */
 const MainContent: React.FC<{}> = () => {
-
   const mainMenuState = useSelector(selectMainMenuState)
   const videoChanged = useSelector(videoSelectHasChanges)
   const metadataChanged = useSelector(metadataSelectHasChanges)
@@ -48,8 +46,6 @@ const MainContent: React.FC<{}> = () => {
     if (videoChanged || metadataChanged) {
       event.preventDefault();
     }
-
-    // TODO: Release lock here or with it's on unBeforeUnload listener?
   });
 
   const mainContentStyle = css({
