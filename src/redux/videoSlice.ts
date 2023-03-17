@@ -29,13 +29,13 @@ export interface video {
   presenters: string[],
   workflows: Workflow[],
 
-  lockingActive: boolean,     // Whether locking event editing is enabled
-  lockRefresh: number | null, // Lock refresh period
-  lockState: boolean,         // Whether lock has been obtained
-  lock: lockData
+  lockingActive: boolean,
+  lockRefresh: number | 0,
+  lockState: boolean,
+  lock: LockData
 }
 
-export interface lockData {
+export interface LockData {
   uuid: string,
   user: string
 }
@@ -64,7 +64,7 @@ export const initialState: video & httpRequestState = {
   workflows: [],
 
   lockingActive: false,
-  lockRefresh: null,
+  lockRefresh: 0,
   lockState: false,
   lock: {uuid: '', user: ''},
 
@@ -157,9 +157,7 @@ const videoSlice = createSlice({
       const index = state.tracks.findIndex(t => t.id === action.payload)
       state.tracks[index].thumbnailUri = undefined
     },
-    // TODO: what's this do?
     setLock: (state, action: PayloadAction<video["lockState"]>) => {
-      console.log(action + ' ' + action.payload);
       state.lockState = action.payload;
     },
     cut: (state) => {
@@ -234,6 +232,7 @@ const videoSlice = createSlice({
         state.aspectRatios = new Array(state.videoCount)
         state.lockingActive = action.payload.locking_active
         state.lockRefresh = action.payload.lock_refresh
+        state.lockState = action.payload.lock_state;
         state.lock.uuid = action.payload.lock_uuid;
         state.lock.user = action.payload.lock_user;
     })
@@ -358,6 +357,8 @@ export const { setTrackEnabled, setIsPlaying, setIsPlayPreview, setCurrentlyAt, 
 
 // Export selectors
 // Selectors mainly pertaining to the video state
+export const getLockState = (state: { videoState: { lockState: video["lockState"] }; }) => state.videoState.lockState
+export const getLock = (state: { videoState: { lock: video["lock"] }; }) => state.videoState.lock
 export const selectIsPlaying = (state: { videoState: { isPlaying: video["isPlaying"] }; }) =>
   state.videoState.isPlaying
 export const selectIsPlayPreview = (state: { videoState: { isPlayPreview: video["isPlayPreview"] }; }) =>
