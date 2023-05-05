@@ -30,7 +30,6 @@ import {
 import { selectTheme } from "../redux/themeSlice";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Thumbnail from "./Thumbnail";
-import Lock from "./Lock";
 
 /**
  * A container for the main functionality
