@@ -29,7 +29,11 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
   }
 
   if (body) {
-    config.body = JSON.stringify(body)
+    if (config.headers['Content-Type'].includes("urlencoded")) {
+      config.body = body;
+    } else {
+      config.body = JSON.stringify(body)
+    }
   }
 
   let data
