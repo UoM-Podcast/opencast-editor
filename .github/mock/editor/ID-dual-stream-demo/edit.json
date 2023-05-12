@@ -54,5 +54,9 @@
     "title": null
   },
   "workflow_active": false,
-  "locking_active": false
+  "locking_active": false,
+  "lock_refresh": 6000,
+  "lock_state": "",
+  "lock_uuid": "",
+  "lock_user": ""
 }

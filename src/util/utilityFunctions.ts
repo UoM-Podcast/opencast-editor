@@ -1,7 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { WebVTTParser, WebVTTSerializer } from 'webvtt-parser';
 import { ExtendedSubtitleCue, SubtitleCue } from '../types';
-import { useEffect, useRef } from 'react';
 
 export const roundToDecimalPlace = (num: number, decimalPlace: number) => {
   let decimalFactor = Math.pow(10, decimalPlace)
@@ -160,29 +159,4 @@ export function parseSubtitle(subtitle: String) {
   }
 
   return tree.cues
-}
-
-// Runs a callback every delay milliseconds
-// Pass delay = null to stop
-// Based off: https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-type IntervalFunction = () => ( unknown | void )
-export function useInterval(callback: IntervalFunction, delay: number | null) {
-
-  const savedCallback = useRef<IntervalFunction | null>( null )
-
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-
-  useEffect(() => {
-    function tick() {
-      if ( savedCallback.current !== null ) {
-        savedCallback.current()
-      }
-    }
-    if (delay !== null) {
-      const id = setInterval(tick, delay)
-      return () => { clearInterval(id) }
-    }
-  }, [callback, delay]);
 }
