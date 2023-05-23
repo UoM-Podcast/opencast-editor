@@ -112,9 +112,9 @@ jobs:
       is_team_member: ${{ steps.is_developer.outputs.permitted == 'true' || steps.is_committer.outputs.permitted == 'true' }}
 
     steps:
-      - name: Check if user is Opencast developer
+      - name: Check if user is UoM-Podcast developer
         id: is_developer
-        if: ${{ github.event.pull_request.head.repo.full_name != 'opencast/opencast-editor' }}
+        if: ${{ github.event.pull_request.head.repo.full_name != 'UoM-Podcast/opencast-editor' }}
         uses: TheModdingInquisition/actions-team-membership@v1.0
         with:
           team: developers
@@ -122,9 +122,9 @@ jobs:
           token: ${{ secrets.ORGANIZATION_MEMBER_SECRET }}
           exit: false
 
-      - name: Check if user is Opencast committer
+      - name: Check if user is UoM-Podcast committer
         id: is_committer
-        if: ${{ github.event.pull_request.head.repo.full_name != 'opencast/opencast-editor' }}
+        if: ${{ github.event.pull_request.head.repo.full_name != 'UoM-Podcast/opencast-editor' }}
         uses: TheModdingInquisition/actions-team-membership@v1.0
         with:
           team: committers
