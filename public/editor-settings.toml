@@ -41,3 +41,8 @@ mainFlavor = "captions"
 
 [thumbnail]
 show = true
+
+[workflow]
+minimum = 1000
+maximum = 2000
+range = '1000:2000'

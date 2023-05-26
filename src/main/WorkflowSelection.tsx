@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { css } from '@emotion/react'
 import { backOrContinueStyle, errorBoxStyle, flexGapReplacementStyle } from '../cssStyles'
@@ -16,11 +16,12 @@ import { httpRequestState, Workflow } from "../types";
 import { SaveButton } from "./Save";
 import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 
+import './../i18n/config';
 import { useTranslation } from 'react-i18next';
 import { Trans } from "react-i18next";
-import { withStyles } from "@mui/styles";
-import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { selectTheme } from "../redux/themeSlice";
+import { settings } from "../config";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, useTheme } from "@mui/material";
 
 /**
  * Allows the user to select a workflow
@@ -32,10 +33,12 @@ const WorkflowSelection : React.FC<{}> = () => {
   const dispatch = useDispatch();
 
   // Initialite redux states
-  const workflows = useSelector(selectWorkflows)
+  let workflows = useSelector(selectWorkflows)
+  let [selectedWorkflow, setSelectedWorkflow] = useState<Workflow | null>(null)
   const finishState = useSelector(selectFinishState)
   const pageNumber = useSelector(selectPageNumber)
   const theme = useSelector(selectTheme)
+  const themePalette = useTheme().palette
 
   const postAndProcessWorkflowStatus = useSelector(selectStatus);
   const postAndProcessError = useSelector(selectError)
@@ -60,14 +63,41 @@ const WorkflowSelection : React.FC<{}> = () => {
     maxHeight: '50vh',
   })
 
+  const workflowFilter = settings.workflow;
+  workflows = workflows.filter((workflow: Workflow) => {
+    if (workflow.displayOrder >= workflowFilter.minimum && workflow.displayOrder <= workflowFilter.maximum) {
+      const range: string = workflowFilter.range;
+      if (range.indexOf(':') < 0) {
+        throw new Error('Invalid configuration');
+      }
+  
+      const start: number = parseInt(range.split(':')[0]);
+      const end: number = parseInt(range.split(':')[1]);
+  
+      if (workflow.displayOrder >= start && workflow.displayOrder <= end) {
+        return true;
+      }
+  
+      selectedWorkflow = null;
+      return false;
+    }
+
+    selectedWorkflow = null;
+    return false;
+  });
+
   useEffect(() => {
     if (workflows.length >= 1) {
       dispatch(setSelectedWorkflowIndex(workflows[0].id))
     }
   }, [dispatch, workflows])
 
-  const handleWorkflowSelectChange = (event: { target: { value: string}; }) => {
-    dispatch(setSelectedWorkflowIndex(event.target.value))
+  const handleWorkflowSelectChange = (event: SelectChangeEvent) => {
+    const selected: Workflow | undefined = workflows.find((w) => w.id === event.target.value);
+    if (selected) {
+      setSelectedWorkflow(selected);
+      dispatch(setSelectedWorkflowIndex(event.target.value));
+    }
   };
 
   // Layout template
@@ -79,21 +109,28 @@ const WorkflowSelection : React.FC<{}> = () => {
         <h2>{topTitle}</h2>
         {topText}
         { hasWorkflowButtons &&
-            <RadioGroup
-              css={workflowSelectionSelectionStyle}
-              defaultValue={workflows[0].id}
-              name="Workflow Selection Area"
-              onChange={handleWorkflowSelectChange}
-            >
-              {workflows.map( (workflow: Workflow, index: number) => (
-                <WorkflowButton key={workflow.id} stateName={workflow.name} workflowId={workflow.id} workflowDescription={workflow.description}/>
-              ))}
-            </RadioGroup>
+              <FormControl style={{minWidth: 250}}>
+                <InputLabel css={workflowSelectionSelectionStyle}
+                            style={{color: themePalette.text.primary}}
+                            htmlFor='selected-workflow'>Select workflow</InputLabel>
+                <Select
+                  labelId="workflow"
+                  id="workflow"
+                  value={selectedWorkflow ? selectedWorkflow?.id : ''}
+                  label="Workflow Selection Area"
+                  onChange={handleWorkflowSelectChange}
+                  css={workflowSelectionSelectionStyle}
+                  >
+                  {workflows.map( (workflow: Workflow) => (
+                    <MenuItem key={workflow.id} value={workflow.id}>{workflow.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
         }
         <div css={backOrContinueStyle}>
           <PageButton pageNumber={0} label={t("workflowSelection.back-button")} iconName={faChevronLeft}/>
           {/* <PageButton pageNumber={2} label="Continue" iconName={faChevronRight}/> */}
-          {nextButton}
+          {selectedWorkflow ? nextButton : <></>}
         </div>
         <div css={errorBoxStyle(errorStatus === "failed", theme)} role="alert">
           <span>{t("various.error-text")}</span><br />
@@ -153,44 +190,5 @@ const WorkflowSelection : React.FC<{}> = () => {
     renderSelection()
   );
 }
-
-const WorkflowButton: React.FC<{stateName: string, workflowId: string, workflowDescription: string}> = ({stateName, workflowId, workflowDescription}) => {
-
-  // Note: Styling the Radio Button is done in WorkflowSelectRadio
-
-  const labelStyle = css({
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: '500px'
-  })
-
-  const headerStyle = css({
-    width: '100%',
-    padding: '5px',
-    fontSize: 'larger',
-  });
-
-  return (
-    <FormControlLabel value={workflowId} control={<WorkflowSelectRadio />}
-      label={
-        <div css={labelStyle}>
-          <div css={headerStyle}>{stateName}</div>
-          <div>{workflowDescription}</div>
-        </div>
-      }
-    />
-  );
-}
-
-const WorkflowSelectRadio = withStyles({
-  root: {
-    alignSelf: 'start',
-    color: 'grey',
-    "&$checked": {
-      color: 'grey'
-    }
-  },
-  checked: {}
-})((props) => <Radio color="default" {...props} />);
 
 export default WorkflowSelection;

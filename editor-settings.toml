@@ -165,3 +165,8 @@
 # Type: boolean
 # Default: true
 #local =
+
+[workflow]
+minimum = 1000
+maximum = 2000
+range = '1000:2000'
