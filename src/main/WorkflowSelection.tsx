@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { css } from '@emotion/react'
 import { backOrContinueStyle, errorBoxStyle, flexGapReplacementStyle } from '../cssStyles'
@@ -12,7 +12,7 @@ import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { SaveAndProcessButton } from "./WorkflowConfiguration";
 import { selectStatus, selectError } from "../redux/workflowPostAndProcessSlice";
 import { selectStatus as saveSelectStatus, selectError as saveSelectError } from "../redux/workflowPostSlice";
-import { httpRequestState, Workflow } from "../types";
+import { httpRequestState, IWorkflowConfiguration, Workflow } from "../types";
 import { SaveButton } from "./Save";
 import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 
@@ -35,6 +35,7 @@ const WorkflowSelection : React.FC<{}> = () => {
   // Initialite redux states
   let workflows = useSelector(selectWorkflows)
   let [selectedWorkflow, setSelectedWorkflow] = useState<Workflow | null>(null)
+  let defaultWorkflow = useRef<Workflow | null>();
   const finishState = useSelector(selectFinishState)
   const pageNumber = useSelector(selectPageNumber)
   const theme = useSelector(selectTheme)
@@ -63,31 +64,114 @@ const WorkflowSelection : React.FC<{}> = () => {
     maxHeight: '50vh',
   })
 
-  const workflowFilter = settings.workflow;
-  workflows = workflows.filter((workflow: Workflow) => {
-    if (workflow.displayOrder >= workflowFilter.minimum && workflow.displayOrder <= workflowFilter.maximum) {
-      const range: string = workflowFilter.range;
-      if (range.indexOf(':') < 0) {
-        throw new Error('Invalid configuration');
-      }
-  
-      const start: number = parseInt(range.split(':')[0]);
-      const end: number = parseInt(range.split(':')[1]);
-  
-      if (workflow.displayOrder >= start && workflow.displayOrder <= end) {
-        return true;
-      }
-  
-      selectedWorkflow = null;
-      return false;
+  const filterMinimum = (minimum: number | undefined, displayOrder: number): boolean => {
+    if (!minimum) {
+      return true;
     }
 
-    selectedWorkflow = null;
+    if (displayOrder >= minimum) {
+      return true;
+    }
+
     return false;
+  };
+
+  const filterMaximum = (maximum: number | undefined, displayOrder: number): boolean => {
+    if (!maximum) {
+      return true;
+    }
+
+    if (displayOrder <= maximum) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const filterRange = (range: string | undefined, displayOrder: number): boolean => {
+    if (!range) {
+      return true;
+    }
+
+    if (range.indexOf(':') < 0) {
+      throw new Error('Invalid configuration');
+    }
+
+    const start: number = parseInt(range.split(':')[0]);
+    const end: number = parseInt(range.split(':')[1]);
+
+    if (displayOrder >= start && displayOrder <= end) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const filterWorkflow = (workflowFilter: IWorkflowConfiguration): Workflow[] => {
+    if (!workflowFilter) {
+      return workflows;
+    }
+
+    return workflows.filter((workflow: Workflow) => {
+      if (workflowFilter.minimum && !workflowFilter.maximum) {
+        let filtered: boolean = filterMinimum(workflowFilter.minimum, workflow.displayOrder);
+
+        if (workflowFilter.range) {
+          filtered = filterRange(workflowFilter.range, workflow.displayOrder);
+        }
+
+        return filtered;
+      }
+
+      if (!workflowFilter.minimum && workflowFilter.maximum) {
+        let filtered: boolean = filterMaximum(workflowFilter.maximum, workflow.displayOrder);
+
+        if (workflowFilter.range) {
+          filtered = filterRange(workflowFilter.range, workflow.displayOrder);
+        }
+
+        return filtered;
+      }
+
+      if (workflowFilter.minimum && workflowFilter.maximum) {
+        let filtered: boolean = filterMinimum(workflowFilter.minimum, workflow.displayOrder) && filterMaximum(workflowFilter.maximum, workflow.displayOrder);
+
+        if (workflowFilter.range) {
+          filtered = filterRange(workflowFilter.range, workflow.displayOrder);
+        }
+
+        return filtered;
+      }
+
+      if (!workflowFilter.minimum && !workflowFilter.maximum) {
+        return filterRange(workflowFilter.range, workflow.displayOrder);
+      }
+
+      selectedWorkflow = null;
+      return false;
+    });
+  };
+
+  const workflowFilter: IWorkflowConfiguration | undefined = settings.workflow;
+  if (workflowFilter) {
+    workflows = filterWorkflow(workflowFilter);
+  }
+
+  workflows = workflows.sort((workflow1: Workflow, workflow2: Workflow) => {
+    if (workflow1.displayOrder < workflow2.displayOrder) {
+      return 1;
+    }
+
+    if (workflow1.displayOrder > workflow2.displayOrder) {
+      return -1;
+    }
+
+    return 0;
   });
 
   useEffect(() => {
     if (workflows.length >= 1) {
+      defaultWorkflow.current = workflows[0];
       dispatch(setSelectedWorkflowIndex(workflows[0].id))
     }
   }, [dispatch, workflows])
@@ -130,7 +214,7 @@ const WorkflowSelection : React.FC<{}> = () => {
         <div css={backOrContinueStyle}>
           <PageButton pageNumber={0} label={t("workflowSelection.back-button")} iconName={faChevronLeft}/>
           {/* <PageButton pageNumber={2} label="Continue" iconName={faChevronRight}/> */}
-          {selectedWorkflow ? nextButton : <></>}
+          {defaultWorkflow || selectedWorkflow ? nextButton : <></>}
         </div>
         <div css={errorBoxStyle(errorStatus === "failed", theme)} role="alert">
           <span>{t("various.error-text")}</span><br />

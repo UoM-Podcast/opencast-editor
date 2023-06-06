@@ -59,9 +59,9 @@ interface iSettings {
     defaultVideoFlavor: Flavor | undefined,
   },
   workflow: {
-    minimum: number,
-    maximum: number,
-    range: string
+    minimum: number | undefined,
+    maximum: number | undefined,
+    range: string | undefined
   }
 }
 
@@ -99,9 +99,9 @@ var defaultSettings: iSettings = {
     defaultVideoFlavor: undefined,
   },
   workflow: {
-    minimum: 1000,
-    maximum: 2000,
-    range: '1000:2000'
+    minimum: undefined,
+    maximum: undefined,
+    range: undefined
   }
 }
 var configFileSettings: iSettings
