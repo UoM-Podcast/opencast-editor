@@ -7,7 +7,8 @@
         "thumbnail-button": "Vorschaubild",
         "metadata-button": "Metadaten",
         "keyboard-controls-button": "Tastatursteuerung",
-        "tooltip-aria": "Hauptnavigation"
+        "tooltip-aria": "Hauptnavigation",
+        "help-button": "Helfen"
     },
     "cuttingActions": {
         "cut-button": "Schneiden",

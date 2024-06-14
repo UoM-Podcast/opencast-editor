@@ -7,7 +7,8 @@
         "thumbnail-button": "縮圖",
         "metadata-button": "後設資料",
         "keyboard-controls-button": "鍵盤控制",
-        "tooltip-aria": "主導航"
+        "tooltip-aria": "主導航",
+        "help-button": "帮助"
     },
     "cuttingActions": {
         "cut-button": "裁剪",
