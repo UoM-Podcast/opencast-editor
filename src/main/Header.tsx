@@ -8,10 +8,10 @@ import { useTranslation } from "react-i18next";
 import { MainMenuButton } from "./MainMenu";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { HiOutlineTranslate } from "react-icons/hi";
-import { LuKeyboard } from "react-icons/lu";
+import { LuKeyboard, LuHelpCircle } from "react-icons/lu";
 import { MainMenuStateNames } from "../types";
-import { basicButtonStyle, BREAKPOINTS, undisplay } from "../cssStyles";
-
+import { basicButtonStyle, BREAKPOINTS, undisplay, titleStyleBold } from "../cssStyles";
+import LogoSvg from "../img/podcast.svg?react";
 import { selectIsEnd } from "../redux/endSlice";
 import {
   checkboxMenuItem,
@@ -24,6 +24,7 @@ import {
 import { IconType } from "react-icons";
 import i18next from "i18next";
 import { languages as lngs } from "../i18n/lngs-generated";
+import { settings } from "../config";
 
 function Header() {
   const theme = useTheme();
@@ -57,6 +58,7 @@ function Header() {
     gap: "16px",
   });
 
+
   const settingsButtonCSS = css({
     display: "flex",
     flexDirection: "row",
@@ -81,9 +83,21 @@ function Header() {
     },
   });
 
+  const openInNewTab = (url: string): void => {
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) {
+      newWindow.opener = null;
+    }
+  };
+
+  const onClickUrl = (url: string): (() => void) => () => openInNewTab(url);
+
   return (
     <div css={[headerStyle, headerStyleThemed]}>
-      <Logo />
+      <div css={rightSideButtonsStyle}>
+        <Logo />
+        <div css={[titleStyleBold(theme), css({ color: `${theme.header_text}` })]}>Podcast Editor</div>
+      </div>
       <div css={rightSideButtonsStyle}>
         <LanguageButton />
         <ThemeButton />
@@ -97,6 +111,9 @@ function Header() {
             iconCustomCSS={css({ fontSize: 22 })}
           />
         }
+        {settings.help.url && <span onClick={onClickUrl(settings.help.url)}>
+          <HeaderButton Icon={LuHelpCircle} label={t("mainMenu.help-button")}/>
+        </span>}
       </div>
     </div>
   );

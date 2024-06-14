@@ -73,6 +73,9 @@ interface iSettings {
     languages: { [key: string]: subtitleTags; } | undefined,
     icons: { [key: string]: string; } | undefined,
     defaultVideoFlavor: Flavor | undefined,
+  },
+  help: {
+    url: string | undefined,
   };
 }
 
@@ -113,6 +116,9 @@ const defaultSettings: iSettings = {
     languages: {},
     icons: undefined,
     defaultVideoFlavor: undefined,
+  },
+  help: {
+    url: undefined,
   },
 };
 let configFileSettings: iSettings;
@@ -414,6 +420,9 @@ const SCHEMA = {
   thumbnail: {
     show: types.boolean,
     simpleMode: types.boolean,
+  },
+  help: {
+    url: types.string,
   },
 };
 

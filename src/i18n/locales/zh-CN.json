@@ -7,7 +7,8 @@
         "thumbnail-button": "缩略图",
         "metadata-button": "元数据",
         "keyboard-controls-button": "键盘设置",
-        "tooltip-aria": "主导航"
+        "tooltip-aria": "主导航",
+        "help-button": "帮助"
     },
     "cuttingActions": {
         "cut-button": "切段",

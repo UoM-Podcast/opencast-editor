@@ -7,7 +7,8 @@
         "thumbnail-button": "Μικρογραφία",
         "metadata-button": "Μεταδεδομένα",
         "keyboard-controls-button": "Έλεγχοι Πληκτρολογίου",
-        "tooltip-aria": "Κύρια Πλοήγηση"
+        "tooltip-aria": "Κύρια Πλοήγηση",
+        "help-button": "Βοήθεια"
     },
     "cuttingActions": {
         "cut-button": "Αποκοπή",
