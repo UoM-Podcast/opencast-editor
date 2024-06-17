@@ -164,7 +164,6 @@ const Field: React.FC<FieldProps> = ({ id, catalogConfig }) => {
   });
 
   const fieldLabelStyle = css({
-    width: "110px",
     fontSize: "1em",
     fontWeight: "bold",
     color: `${theme.text}`,
