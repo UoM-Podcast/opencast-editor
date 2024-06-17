@@ -51,7 +51,9 @@ const TheEnd: React.FC = () => {
 
   return (
     <div css={theEndStyle}>
-      {endState === "discarded" ? <LuCircleX css={{ fontSize: 80 }} /> : <LuCircleCheck css={{ fontSize: 80 }} />}
+      <div/>
+      <div/>
+      {endState === "discarded" ? <LuXCircleX css={{ fontSize: 80 }} /> : <LuCheckCircle css={{ fontSize: 80 }} />}
       <div>{text()}</div>
       <div css={restartOrBackStyle}>
         <CallbackButton />
