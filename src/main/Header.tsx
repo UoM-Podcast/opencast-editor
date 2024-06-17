@@ -89,7 +89,7 @@ function Header() {
         <div css={[titleStyleBold(theme), css({ color: `${theme.header_text}` })]}>Podcast Editor</div>
       </div>
       <div css={rightSideButtonsStyle}>
-        <LanguageButton />
+        {lngs.size > 1 && <LanguageButton />}
         <ThemeButton />
         {!isEnd &&
           <MainMenuButton
