@@ -120,7 +120,6 @@ const Metadata: React.FC = () => {
   });
 
   const fieldLabelStyle = css({
-    width: "110px",
     fontSize: "1em",
     fontWeight: "bold",
     color: `${theme.text}`,
