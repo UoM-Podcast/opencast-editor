@@ -62,13 +62,13 @@
     },
 
     "save": {
-      "headline-text": "Save current project",
+      "headline-text": "Save edits",
       "confirm-button": "Yes, save changes",
       "confirmButton-attempting-tooltip": "Attempting to save",
       "confirmButton-success-tooltip": "Saved successfully",
       "confirmButton-failed-tooltip": "Save failed",
       "info-text": "The video will not be processed but all cutting information will be stored. You can continue your edit later.",
-      "success-text": "Changes saved successfully! You can now close the editor or continue working.",
+      "success-text": "Your edits have been saved but the video has not yet been published. You will need to complete editing and publish the video when ready.",
       "success-tooltip-aria": "Saved successfully",
       "saveArea-tooltip": "Save Area",
       "confirm-success": "Okay",
@@ -85,7 +85,8 @@
       "discarded-text": "Your changes have been discarded. You can now close the editor.",
       "startOver-button": "Let me start over!",
       "startOver-tooltip": "Reload the page to start over",
-      "info-text": "Your video will now be processed before publishing onto the Video Portal, which may take quite some time so please be patient.\n\n You can now close the editor.\n"
+      "info-title": "Video Submitted for Publication",
+      "info-text": "Thank you for editing your video. It will now be processed and published on the Video Portal. Please allow up to 24 hours for the video to become available. You can now close the editor."
     },
 
     "workflowSelection": {
