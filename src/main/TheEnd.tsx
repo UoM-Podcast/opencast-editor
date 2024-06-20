@@ -6,7 +6,7 @@ import { LuCircleCheck, LuCircleX } from "react-icons/lu";
 
 import { useAppSelector } from "../redux/store";
 import { selectEndState } from "../redux/endSlice";
-import { basicButtonStyle, navigationButtonStyle } from "../cssStyles";
+import { basicButtonStyle, navigationButtonStyle, titleStyleBold } from "../cssStyles";
 
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../themes";
@@ -27,9 +27,18 @@ const TheEnd: React.FC = () => {
 
   const text = () => {
     if (endState === "discarded") {
-      return t("theEnd.discarded-text");
+      return (<div>{t("theEnd.discarded-text")}</div>);
     } else if (endState === "success") {
-      return t("theEnd.info-text");
+      return (
+        <div css={css({
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          ...(flexGapReplacementStyle(20, false)),
+        })}>
+          <div css={titleStyleBold(useTheme())}>{t("theEnd.info-title")}</div>
+          <div css={css({ width: "50%" })}>{t("theEnd.info-text")}</div>
+        </div>);
     }
   };
 
@@ -54,7 +63,7 @@ const TheEnd: React.FC = () => {
       <div/>
       <div/>
       {endState === "discarded" ? <LuXCircleX css={{ fontSize: 80 }} /> : <LuCheckCircle css={{ fontSize: 80 }} />}
-      <div>{text()}</div>
+      {text()}
       <div css={restartOrBackStyle}>
         <CallbackButton />
         {(endState === "discarded") && <StartOverButton />}
