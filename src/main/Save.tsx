@@ -94,12 +94,12 @@ const Save: React.FC = () => {
       {render()}
       <div css={errorBoxStyle(postWorkflowStatus === "failed", theme)} role="alert">
         <span>{t("various.error-text", { contact: settings.help.contact })}</span><br />
-        {postError ? t("various.error-details-text", { errorMessage: postError }) : t("various.error-text")}<br />
+        {postError ? t("various.error-details-text", { errorMessage: postError.replace(/<[^>]+>/g, '') }) : t("various.error-text")}<br />
       </div>
       <div css={errorBoxStyle(postMetadataStatus === "failed", theme)} role="alert">
         <span>{t("various.error-text", { contact: settings.help.contact })}</span><br />
         {postMetadataError ?
-          t("various.error-details-text", { errorMessage: postMetadataError }) : t("various.error-text")
+          t("various.error-details-text", { errorMessage: postMetadataError.replace(/<[^>]+>/g, '') }) : t("various.error-text")
         }<br />
       </div>
     </div>
