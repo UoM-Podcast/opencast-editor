@@ -18,6 +18,7 @@ import { Trans } from "react-i18next";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 import { useTheme } from "../themes";
 import { ErrorBox } from "@opencast/appkit";
+import { settings } from "../config";
 
 /**
  * Allows the user to select a workflow
@@ -116,7 +117,7 @@ const WorkflowSelection: React.FC = () => {
           t("workflowSelection.saveAndProcess-text"),
           <Trans i18nKey="workflowSelection.noWorkflows-text">
             There are no workflows to process your changes with.<br />
-            Please save your changes and contact an administrator.
+            Please save your changes and contact {{ contact: settings.help.contact }}.
           </Trans>,
           false,
           <SaveButton />,

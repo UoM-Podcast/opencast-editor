@@ -37,6 +37,7 @@ import { ErrorBox } from "@opencast/appkit";
 import { Spinner } from "@opencast/appkit";
 import { ProtoButton } from "@opencast/appkit";
 import { setEnd } from "../redux/endSlice";
+import { settings } from "../config";
 
 /**
  * Shown if the user wishes to save.
@@ -94,7 +95,7 @@ const Save: React.FC = () => {
       {postWorkflowStatus === "failed" &&
         <ErrorBox>
           <span css={{ whiteSpace: "pre-line" }}>
-            {t("various.error-text") + "\n"}
+            {t("various.error-text", { contact: settings.help.contact }) + "\n"}
             {postError ?
               t("various.error-details-text", { errorMessage: postError }) : undefined
             }
