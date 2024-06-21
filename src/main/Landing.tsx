@@ -3,6 +3,7 @@ import React from "react";
 import { css } from "@emotion/react";
 
 import { useTranslation } from "react-i18next";
+import { settings } from "../config";
 
 /**
  * This page is to be displayed when the application has run into a critical error
@@ -37,7 +38,7 @@ const Landing: React.FC = () => {
       <h1>{t("landing.main-heading")}</h1>
       <div>
         <li>
-          {t("landing.contact-admin")}
+          {t("landing.contact-admin", { contact: settings.help.contact })}
         </li>
         <li>
           {t("landing.start-editing-1")}

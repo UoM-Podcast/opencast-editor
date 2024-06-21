@@ -32,6 +32,7 @@ import {
 import { serializeSubtitle } from "../util/utilityFunctions";
 import { useTheme } from "../themes";
 import { ThemedTooltip } from "./Tooltip";
+import { settings } from "../config";
 
 /**
  * Shown if the user wishes to save.
@@ -92,11 +93,11 @@ const Save: React.FC = () => {
       <h1>{t("save.headline-text")}</h1>
       {render()}
       <div css={errorBoxStyle(postWorkflowStatus === "failed", theme)} role="alert">
-        <span>{t("various.error-text")}</span><br />
+        <span>{t("various.error-text", { contact: settings.help.contact })}</span><br />
         {postError ? t("various.error-details-text", { errorMessage: postError }) : t("various.error-text")}<br />
       </div>
       <div css={errorBoxStyle(postMetadataStatus === "failed", theme)} role="alert">
-        <span>{t("various.error-text")}</span><br />
+        <span>{t("various.error-text", { contact: settings.help.contact })}</span><br />
         {postMetadataError ?
           t("various.error-details-text", { errorMessage: postMetadataError }) : t("various.error-text")
         }<br />

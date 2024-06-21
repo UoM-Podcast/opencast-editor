@@ -69,6 +69,7 @@ interface iSettings {
   },
   help: {
     url: string | undefined,
+    contact: string | undefined,
   };
 }
 
@@ -110,6 +111,7 @@ const defaultSettings: iSettings = {
   },
   help: {
     url: undefined,
+    contact: "an administrator"
   },
 };
 let configFileSettings: iSettings;
@@ -423,6 +425,7 @@ const SCHEMA = {
   },
   help: {
     url: types.string,
+    contact: types.string,
   },
 };
 
