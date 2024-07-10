@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { css } from "@emotion/react";
-import { BREAKPOINTS, calendarStyle, selectFieldStyle, titleStyle, titleStyleBold } from "../cssStyles";
+import { BREAKPOINTS, calendarStyle, selectFieldStyle, spinningStyle, titleStyle, titleStyleBold } from "../cssStyles";
 
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import {
@@ -24,6 +24,7 @@ import { DateTime as LuxonDateTime } from "luxon";
 import { configureFieldsAttributes, settings } from "../config";
 import { useTheme } from "../themes";
 import { ThemeProvider } from "@mui/material/styles";
+import { LuLoader } from "react-icons/lu";
 import { ParseKeys } from "i18next";
 import { ErrorBox } from "@opencast/appkit";
 import { screenWidthAtMost } from "@opencast/appkit";
@@ -68,6 +69,18 @@ const Catalogs: React.FC = () => {
     },
   });
 
+  const renderWaiting = () => {
+    if (getStatus === "loading") {
+      return (
+        <div css={catalogStyle}>
+          <LuLoader css={[spinningStyle, { fontSize: 40 }]} />
+          <span>{t("metadata.loading")}</span>
+        </div>
+      )
+    }
+    return;
+  };
+
   return (
     <div css={metadataStyle}>
       {getStatus === "failed" &&
@@ -80,6 +93,8 @@ const Catalogs: React.FC = () => {
           </span>
         </ErrorBox>
       }
+
+      {renderWaiting()}
 
       {catalogIds.map(id => (
         <Catalog key={id} id={id} />
