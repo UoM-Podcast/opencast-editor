@@ -4,6 +4,7 @@ import { ParseKeys } from "i18next";
 import React from "react";
 
 import { useTranslation, Trans } from "react-i18next";
+import { settings } from "../config";
 import { flexGapReplacementStyle } from "../cssStyles";
 import { getGroupName, KEYMAP, rewriteKeys } from "../globalKeys";
 import { useTheme } from "../themes";
@@ -130,6 +131,9 @@ const KeyboardControls: React.FC = () => {
       const groups: JSX.Element[] = [];
       Object.entries(KEYMAP).forEach(([groupName, group], index) => {
         const entries: { [groupName: string]: string[][]; } = {};
+        if (groupName === "subtitleList" && !settings.subtitles.show) {
+          return;
+        }
         Object.entries(group).forEach(([, action]) => {
           const sequences = action.key.split(",").map(item => item.trim());
           entries[action.name] = Object.entries(sequences).map(([, sequence]) => {
