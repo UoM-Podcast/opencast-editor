@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 
 import { css } from "@emotion/react";
-import { calendarStyle, errorBoxStyle, selectFieldStyle, titleStyle, titleStyleBold } from "../cssStyles";
+import { calendarStyle, errorBoxStyle, selectFieldStyle, spinningStyle, titleStyle, titleStyleBold,
+} from "../cssStyles";
 
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import {
@@ -28,6 +29,8 @@ import { DateTime as LuxonDateTime } from "luxon";
 import { configureFieldsAttributes, settings } from "../config";
 import { useTheme } from "../themes";
 import { ThemeProvider } from "@mui/material/styles";
+import { LuLoader } from "react-icons/lu";
+
 import { cloneDeep } from "lodash";
 import { ParseKeys } from "i18next";
 
@@ -693,6 +696,18 @@ const Metadata: React.FC = () => {
     );
   };
 
+  const renderWaiting = () => {
+    if (getStatus === "loading") {
+      return (
+        <div css={catalogStyle}>
+          <LuLoader css={[spinningStyle, { fontSize: 40 }]} />
+          <span>{t("metadata.loading")}</span>
+        </div>
+      )
+    }
+    return; 
+  };
+
   /**
    * Main render function. Renders all catalogs in a single form
    */
@@ -713,6 +728,8 @@ const Metadata: React.FC = () => {
               <span>A problem occurred during communication with Opencast.</span><br />
               {getError ? "Details: " + getError : "No error details are available."}<br />
             </div>
+
+            {renderWaiting()}
 
             {catalogs.map((catalog, i) => {
               if (settings.metadata.configureFields) {
