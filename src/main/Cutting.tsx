@@ -21,6 +21,7 @@ import {
 } from "../redux/videoSlice";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../redux/store";
+import { settings } from "../config";
 import { httpRequestState } from "../types";
 import { useTheme } from "../themes";
 import { setError } from "../redux/errorSlice";
@@ -57,6 +58,12 @@ const Cutting: React.FC = () => {
           errorTitle: t("error.workflowActive-errorTitle"),
           errorMessage: t("error.workflowActive-errorMessage"),
           errorIcon: LuMoreHorizontal,
+        }));
+      } else if (errorReason === "notFound") {
+        dispatch(setError({
+          error: true,
+          errorTitle: t("error.notFound-errorTitle"),
+          errorMessage: t("error.notFound-errorMessage"),
         }));
       } else {
         dispatch(setError({
