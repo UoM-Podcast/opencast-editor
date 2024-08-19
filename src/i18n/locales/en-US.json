@@ -218,7 +218,7 @@
       "generic-message": "A critical error has occurred!",
       "details": "Details: ",
       "notFound-errorTitle": "Preview Not Found",
-      "notFound-errorMessage": "This video is no longer available in the editor. This most likely means the video has been edited and published.",
+      "notFound-errorMessage": "This video is no longer available in the editor. This most likely means the video has been edited and published. If you keep encountering this error, or believe the video has not been edited, contact {{ contact }} for help.",
       "workflowActive-errorTitle": "Temporarily unavailable",
       "workflowActive-errorMessage": "This event is being processed. Please wait until the process is finished."
     },

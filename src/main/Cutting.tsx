@@ -63,7 +63,7 @@ const Cutting: React.FC = () => {
         dispatch(setError({
           error: true,
           errorTitle: t("error.notFound-errorTitle"),
-          errorMessage: t("error.notFound-errorMessage"),
+          errorMessage: t("error.notFound-errorMessage", { contact: settings.help.contact }),
         }));
       } else {
         dispatch(setError({

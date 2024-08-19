@@ -31,6 +31,8 @@ const Error: React.FC = () => {
   });
 
   const theEndStyle = css({
+    width: "80%",
+    marginLeft: "10%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
