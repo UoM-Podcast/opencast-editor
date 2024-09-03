@@ -332,7 +332,7 @@ const videoSlice = createSlice({
     builder.addCase(
       fetchVideoInformation.rejected, (state, action) => {
         state.status = "failed";
-        if (action.error.message?.startsWith("Status 404")) {
+        if (action.error.message?.startsWith("Status 400")) {
           state.errorReason = "notFound";
         }
         state.error = action.error.message;
