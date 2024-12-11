@@ -124,7 +124,7 @@ const WorkflowSelection: React.FC = () => {
       return (
         render(
           t("save.invalid-headline-text"),
-          <span css={{ maxWidth: "500px" }}>{t("save.invalid-text")}</span>,
+          <span css={{ maxWidth: "500px" }}>{t("save.invalid-text", { contact: settings.help.contact })}</span>,
           false,
           <div/>,
           saveStatus,

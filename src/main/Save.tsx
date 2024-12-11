@@ -83,7 +83,7 @@ const Save: React.FC = () => {
       return (
         <>
           <span css={{ maxWidth: "500px" }}>
-            {validSegments ? t("save.info-text") : t("save.invalid-text")}
+            {validSegments ? t("save.info-text") : t("save.invalid-text", { contact: settings.help.contact })}
           </span>
           <div css={backOrContinueStyle}>
             <PageButton pageNumber={0} label={t("various.goBack-button")} Icon={LuChevronLeft} />
