@@ -16,6 +16,8 @@ import {
   selectSelectedWorkflowId,
   selectTracks,
   setHasChanges as videoSetHasChanges,
+  selectValidSegments,
+  validateSegments,
 } from "../redux/videoSlice";
 import { postVideoInformation, selectStatus, selectError } from "../redux/workflowPostSlice";
 
@@ -53,6 +55,10 @@ const Save: React.FC = () => {
   const hasChanges = useAppSelector(selectHasChanges);
   const subtitleHasChanges = useAppSelector(selectSubtitleHasChanges);
 
+  const dispatch = useAppDispatch();
+  dispatch(validateSegments());
+  const validSegments = useAppSelector(selectValidSegments);
+
   const saveStyle = css({
     display: "flex",
     flexDirection: "column",
@@ -77,11 +83,11 @@ const Save: React.FC = () => {
       return (
         <>
           <span css={{ maxWidth: "500px" }}>
-            {t("save.info-text")}
+            {validSegments ? t("save.info-text") : t("save.invalid-text")}
           </span>
           <div css={backOrContinueStyle}>
             <PageButton pageNumber={0} label={t("various.goBack-button")} Icon={LuChevronLeft} />
-            <SaveButton />
+            {validSegments && <SaveButton />}
           </div>
         </>
       );
@@ -90,7 +96,7 @@ const Save: React.FC = () => {
 
   return (
     <div css={saveStyle}>
-      <h1>{t("save.headline-text")}</h1>
+      <h1>{validSegments ? t("save.headline-text") : t("save.invalid-headline-text")}</h1>
       {render()}
       {postWorkflowStatus === "failed" &&
         <ErrorBox>
