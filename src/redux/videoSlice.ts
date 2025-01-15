@@ -21,7 +21,6 @@ export interface video {
   customizedTrackSelection: boolean, // Did user select tracks for processing
   subtitlesFromOpencast: SubtitlesFromOpencast[],
   activeSegmentIndex: number,     // Index of the segment that is currenlty hovered
-  validSegments: boolean,         // Whether the segment will result in a valid video edit
   selectedWorkflowId: string,     // Id of the currently selected workflow
   aspectRatios: { width: number, height: number; }[],  // Aspect ratios of every video
   hasChanges: boolean,            // Did user make changes in cutting view since last save
@@ -58,7 +57,6 @@ export const initialState: video & httpRequestState = {
   customizedTrackSelection: false,
   subtitlesFromOpencast: [],
   activeSegmentIndex: 0,
-  validSegments: true,
   selectedWorkflowId: "",
   previewTriggered: false,
   clickTriggered: false,
@@ -213,15 +211,6 @@ const videoSlice = createSlice({
 
       updateCurrentlyAt(state, jumpTarget);
       state.jumpTriggered = true;
-    },
-    validateSegments: state => {
-      // Test if whole video has been deleted
-      if (state.segments.length === 1 && state.segments[0].deleted && state.segments[0].start === 0 &&
-          state.segments[0].end === state.duration) {
-        state.validSegments = false;
-      } else {
-        state.validSegments = true;
-      }
     },
     addSegment: (state, action: PayloadAction<video["segments"][0]>) => {
       state.segments.push(action.payload);
@@ -414,7 +403,14 @@ const videoSlice = createSlice({
     selectCurrentlyAtInSeconds: state => state.currentlyAt / 1000,
     selectSegments: state => state.segments,
     selectActiveSegmentIndex: state => state.activeSegmentIndex,
-    selectValidSegments: state => state.validSegments,
+    selectValidCutting: state => {
+      let validSegment = false;
+      // Test if whole video hasn't been deleted
+      state.segments.forEach(segment => {
+        validSegment ||= !segment.deleted;
+      })
+      return validSegment;
+    },
     selectIsCurrentSegmentAlive: state => !state.segments[state.activeSegmentIndex].deleted,
     selectSelectedWorkflowId: state => state.selectedWorkflowId,
     selectHasChanges: state => state.hasChanges,
@@ -598,7 +594,6 @@ export const {
   setVideoEnabled,
   setVolume,
   setWaveformImages,
-  validateSegments,
 } = videoSlice.actions;
 
 // Export selectors
@@ -615,7 +610,7 @@ export const {
   selectCustomizedTrackSelection,
   selectSegments,
   selectActiveSegmentIndex,
-  selectValidSegments,
+  selectValidCutting,
   selectIsCurrentSegmentAlive,
   selectSelectedWorkflowId,
   selectHasChanges,
