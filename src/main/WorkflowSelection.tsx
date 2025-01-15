@@ -10,7 +10,7 @@ import { selectFinishState, selectPageNumber } from "../redux/finishSlice";
 import { PageButton } from "./Finish";
 import { LuChevronLeft } from "react-icons/lu";
 import { SaveAndProcessButton } from "./WorkflowConfiguration";
-import { selectValidSegments, validateSegments } from "../redux/videoSlice";
+import { selectValidCutting } from "../redux/videoSlice";
 import { selectStatus, selectError } from "../redux/workflowPostAndProcessSlice";
 import { selectStatus as saveSelectStatus, selectError as saveSelectError } from "../redux/workflowPostSlice";
 import { httpRequestState, Workflow } from "../types";
@@ -46,9 +46,7 @@ const WorkflowSelection: React.FC = () => {
   const postAndProcessError = useAppSelector(selectError);
   const saveStatus = useAppSelector(saveSelectStatus);
   const saveError = useAppSelector(saveSelectError);
-
-  dispatch(validateSegments());
-  const validSegments = useAppSelector(selectValidSegments);
+  const validCutting = useAppSelector(selectValidCutting);
 
   const workflowSelectionStyle = css({
     padding: "20px",
@@ -120,7 +118,7 @@ const WorkflowSelection: React.FC = () => {
 
   // Fills the layout template with values based on how many workflows are available
   const renderSelection = () => {
-    if (!validSegments) {
+    if (!validCutting) {
       return (
         render(
           t("save.invalid-headline-text"),
