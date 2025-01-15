@@ -351,6 +351,14 @@ const videoSlice = createSlice({
     selectCurrentlyAtInSeconds: state => state.currentlyAt / 1000,
     selectSegments: state => state.segments,
     selectActiveSegmentIndex: state => state.activeSegmentIndex,
+    selectValidCutting: state => {
+      let validSegment = false;
+      // Test if whole video hasn't been deleted
+      state.segments.forEach(segment => {
+        validSegment ||= !segment.deleted;
+      })
+      return validSegment;
+    },
     selectIsCurrentSegmentAlive: state => !state.segments[state.activeSegmentIndex].deleted,
     selectSelectedWorkflowId: state => state.selectedWorkflowId,
     selectHasChanges: state => state.hasChanges,
@@ -540,6 +548,7 @@ export const {
   selectCurrentlyAtInSeconds,
   selectSegments,
   selectActiveSegmentIndex,
+  selectValidCutting,
   selectIsCurrentSegmentAlive,
   selectSelectedWorkflowId,
   selectHasChanges,
