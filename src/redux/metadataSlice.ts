@@ -85,6 +85,7 @@ const metadataSlice = createSlice({
         state.status = "loading";
       });
     builder.addCase(fetchMetadata.fulfilled, (state, action) => {
+      state.status = "success";
       // Entity Adapter preparations
       const catalogEntities: Catalog[] = [];
       const fieldEntities: MetadataField[] = [];

@@ -72,7 +72,7 @@ const Catalogs: React.FC = () => {
   const renderWaiting = () => {
     if (getStatus === "loading") {
       return (
-        <div css={catalogStyle}>
+        <div>
           <LuLoader css={[spinningStyle, { fontSize: 40 }]} />
           <span>{t("metadata.loading")}</span>
         </div>
