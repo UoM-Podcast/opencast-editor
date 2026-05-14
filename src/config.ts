@@ -120,7 +120,7 @@ const defaultSettings: iSettings = {
   },
   help: {
     url: undefined,
-    contact: "an administrator"
+    contact: "an administrator",
   },
 };
 let configFileSettings: iSettings;

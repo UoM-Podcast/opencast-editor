@@ -408,7 +408,7 @@ const videoSlice = createSlice({
       // Test if whole video hasn't been deleted
       state.segments.forEach(segment => {
         validSegment ||= !segment.deleted;
-      })
+      });
       return validSegment;
     },
     selectIsCurrentSegmentAlive: state => !state.segments[state.activeSegmentIndex].deleted,

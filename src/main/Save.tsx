@@ -99,7 +99,7 @@ const Save: React.FC = () => {
           <span css={{ whiteSpace: "pre-line" }}>
             {t("various.error-text", { contact: settings.help.contact }) + "\n"}
             {postError ?
-              t("various.error-details-text", { errorMessage: postError .replace(/<[^>]+>/g, '')}) : undefined
+              t("various.error-details-text", { errorMessage: postError .replace(/<[^>]+>/g, "") }) : undefined
             }
           </span>
         </ErrorBox>

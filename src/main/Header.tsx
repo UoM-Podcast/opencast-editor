@@ -11,7 +11,6 @@ import { HiOutlineTranslate } from "react-icons/hi";
 import { LuKeyboard, LuCircleHelp } from "react-icons/lu";
 import { MainMenuStateNames } from "../types";
 import { basicButtonStyle, BREAKPOINTS, undisplay, titleStyleBold } from "../cssStyles";
-import LogoSvg from "../img/podcast.svg?react";
 import { selectIsEnd } from "../redux/endSlice";
 import {
   checkboxMenuItem,

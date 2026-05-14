@@ -120,7 +120,7 @@ const WorkflowSelection: React.FC = () => {
           false,
           <div/>,
           saveStatus,
-          saveError
+          saveError,
         )
       );
     } else if (workflows.length <= 0) {

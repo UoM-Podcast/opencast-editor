@@ -76,7 +76,7 @@ const Catalogs: React.FC = () => {
           <LuLoader css={[spinningStyle, { fontSize: 40 }]} />
           <span>{t("metadata.loading")}</span>
         </div>
-      )
+      );
     }
     return;
   };

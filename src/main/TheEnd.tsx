@@ -21,6 +21,7 @@ import { ProtoButton } from "@opencast/appkit";
 const TheEnd: React.FC = () => {
 
   const { t } = useTranslation();
+  const theme = useTheme();
 
   // Init redux variables
   const endState = useAppSelector(selectEndState);
@@ -34,9 +35,9 @@ const TheEnd: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          ...(flexGapReplacementStyle(20, false)),
+          gap: "20px",
         })}>
-          <div css={titleStyleBold(useTheme())}>{t("theEnd.info-title")}</div>
+          <div css={titleStyleBold(theme)}>{t("theEnd.info-title")}</div>
           <div css={css({ width: "50%" })}>{t("theEnd.info-text")}</div>
         </div>);
     }
@@ -62,7 +63,7 @@ const TheEnd: React.FC = () => {
     <div css={theEndStyle}>
       <div/>
       <div/>
-      {endState === "discarded" ? <LuXCircleX css={{ fontSize: 80 }} /> : <LuCheckCircle css={{ fontSize: 80 }} />}
+      {endState === "discarded" ? <LuCircleX css={{ fontSize: 80 }} /> : <LuCircleCheck css={{ fontSize: 80 }} />}
       {text()}
       <div css={restartOrBackStyle}>
         <CallbackButton />
