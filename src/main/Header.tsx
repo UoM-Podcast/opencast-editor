@@ -119,7 +119,6 @@ function Header() {
 }
 
 const LogoPicture: React.FC = () => {
-  const theme = useTheme();
   const imgUrl = new URL("/public/podcast.svg?react", import.meta.url).href;
   return (
     <div>
@@ -132,7 +131,6 @@ const LogoPicture: React.FC = () => {
         <source srcSet={imgUrl}></source>
         <img src={imgUrl} alt="Podcast Editor Logo"/>
       </picture>
-      <div css={[titleStyleBold(theme), css({ color: `${theme.header_text}` })]}>Podcast Editor</div>
     </div>
   );
 };
