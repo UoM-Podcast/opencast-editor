@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { MainMenuButton } from "./MainMenu";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { HiOutlineTranslate } from "react-icons/hi";
-import { LuKeyboard, LuHelpCircle } from "react-icons/lu";
+import { LuKeyboard, LuCircleHelp } from "react-icons/lu";
 import { MainMenuStateNames } from "../types";
 import { basicButtonStyle, BREAKPOINTS, undisplay, titleStyleBold } from "../cssStyles";
 import LogoSvg from "../img/podcast.svg?react";
@@ -112,7 +112,7 @@ function Header() {
           />
         }
         {settings.help.url && <span onClick={onClickUrl(settings.help.url)}>
-          <HeaderButton Icon={LuHelpCircle} label={t("mainMenu.help-button")}/>
+          <HeaderButton Icon={LuCircleHelp} label={t("mainMenu.help-button")}/>
         </span>}
       </div>
     </div>
@@ -120,7 +120,8 @@ function Header() {
 }
 
 const LogoPicture: React.FC = () => {
-  const imgUrl = new URL("/public/opencast-editor.svg", import.meta.url).href;
+  const theme = useTheme();
+  const imgUrl = new URL("/public/podcast.svg?react", import.meta.url).href;
   return (
     <div>
       <picture css={{
@@ -130,8 +131,9 @@ const LogoPicture: React.FC = () => {
         },
       }}>
         <source srcSet={imgUrl}></source>
-        <img src={imgUrl} alt="Opencast Editor Logo"/>
+        <img src={imgUrl} alt="Podcast Editor Logo"/>
       </picture>
+      <div css={[titleStyleBold(theme), css({ color: `${theme.header_text}` })]}>Podcast Editor</div>
     </div>
   );
 };
